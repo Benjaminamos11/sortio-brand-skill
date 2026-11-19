@@ -48,6 +48,7 @@ Feature names as the website tabs use them: **Scannen · Verstehen · Bezahlen �
 | **Kostenlos starten** | Website Basic plan, reel captions ("kostenlos starten auf sortio.ch") |
 | **App laden** | Website nav (short form) |
 | **Pro testen** | Website Pro plan |
+| **Im App Store testen** | Posts about the 7-day trial of the yearly plan (approved 20 Nov 2026); always with the fine print "Danach CHF 79.– im Jahr. Vor Ablauf im App Store kündbar." |
 | **Vertrieb kontaktieren** | Website KMU & Enterprise plan (links to sortio.ch/kontakt) |
 | **Bald bei Google Play** | Android: only this wording. Sortio is not on Google Play yet |
 
@@ -103,6 +104,8 @@ From the ad kit and sortio.ch. Use as is or as a model.
 **Price and trust**
 - CHF 0 zum Start.
 - Klar und fair. Monatlich kündbar.
+- 7 Tage gratis testen. *(yearly plan only; fine print "Danach CHF 79.– im Jahr. Vor Ablauf im App Store kündbar.")*
+- CHF 10.– im Monat oder CHF 79.– im Jahr.
 - In der Schweiz gespeichert.
 
 **Before → after pairs** ("Bisher" → "Mit Sortio")
@@ -129,6 +132,7 @@ Do **not** reuse these lines from the June 2026 campaign plan: "47 Briefe in der
 8. **KMU** — Lieferantenrechnungen, MWST, Sozialversicherungen und Verträge: Sortio sortiert die Geschäftspost und hält Belege für die Treuhand bereit.
 9. **Schweiz** — Deine Unterlagen liegen in Rechenzentren in der Schweiz, mit AES-256 verschlüsselt. Sortio liest Deutsch, Französisch und Englisch.
 10. **Fristen (Balkon)** — Prämie, Steuern, Kündigungsfrist: Sortio liest die Frist aus dem Brief und erinnert dich rechtzeitig.
+11. **Jahresabo mit Testphase** *(new, approved 20 Nov 2026)* — Teste Sortio Pro 7 Tage gratis: unbegrenzte Scans, Sortio AI und Auto-Fristen. Danach CHF 79.– im Jahr, vor Ablauf im App Store kündbar. CTA: Im App Store testen.
 
 Reel captions from the kit (also good for posts):
 - Foto machen, Sortio erledigt den Rest: Absender, Betrag und Frist erkannt, im richtigen Ordner abgelegt, rechtzeitig erinnert. Und wenn du wissen willst, was im Oktober noch offen ist, fragst du einfach. Jetzt im App Store, kostenlos starten auf sortio.ch.

@@ -43,7 +43,7 @@ This skill makes content that looks, sounds and fact-checks like Sortio. All pat
 
 - Swiss High German, «du», calm and concrete. «ss», never «ß».
 - CHF with the Swiss apostrophe: `CHF 3’168.25`. Prices as `CHF 10.– / Monat`.
-- CTAs: «Gratis starten» or «Im App Store laden».
+- CTAs: «Gratis starten» or «Im App Store laden»; «Im App Store testen» for the 7-day trial.
 - Name things as the app does: Sortio AI, QR-Rechnung, Fristen, Ordner.
 - One idea per post. Show the feature, do not hype it.
 
@@ -52,7 +52,7 @@ This skill makes content that looks, sounds and fact-checks like Sortio. All pat
 - Only real app screens; amounts and letters come from the sample data (marked MUSTER).
 - No invented numbers, user counts, ratings, reviews, testimonials, awards, «Nr. 1», speed or time-saved claims.
 - No compliance or security claims beyond the site wording («Daten in der Schweiz», «AES-256 verschlüsselt»).
-- No Android availability, no unlisted languages, no prices or discounts that are not on sortio.ch. The full list is in `references/product-facts.md` section 7.
+- No Android availability, no unlisted languages, no prices or discounts beyond `references/product-facts.md` section 3. Pro is CHF 10.– a month or CHF 79.– a year; the 7-day free trial belongs to the yearly plan only and always comes with «Danach CHF 79.– im Jahr. Vor Ablauf im App Store kündbar.». No savings claims. The full list is in `references/product-facts.md` section 7.
 - When unsure whether a claim is allowed, leave it out and tell the user.
 
 ## Working with files

@@ -69,7 +69,7 @@ In the chat version Claude can design posts, write copy, scripts and AI prompts.
 - Show only the real Sortio app. Amounts and documents on screens come from sample data marked MUSTER.
 - No invented numbers, ratings, awards, user counts or testimonials.
 - Swiss High German: «ss», never «ß»; CHF amounts like `CHF 3’168.25`.
-- Prices and plans: always check [sortio.ch](https://www.sortio.ch) before publishing; `references/product-facts.md` has the state of the repo date.
+- Prices and plans: Pro CHF 10.– a month or CHF 79.– a year; the 7-day free trial is for the yearly plan only and always comes with «Danach CHF 79.– im Jahr. Vor Ablauf im App Store kündbar.». Check [sortio.ch](https://www.sortio.ch) and the App Store before publishing; `references/product-facts.md` has the details.
 
 ## Kurz auf Deutsch
 

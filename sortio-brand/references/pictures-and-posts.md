@@ -182,7 +182,7 @@ Set A is free, exact and repeatable; Set B costs credits and adds stopping power
 - [ ] CTA is one of the approved ones; Android only as "Bald bei Google Play".
 
 **Facts**
-- [ ] Prices match sortio.ch today (Basic CHF 0 with 8 scans/month, Pro CHF 10.– per month). No CHF 9.90. Yearly CHF 79 or the 7-day trial only with Benjamin's OK.
+- [ ] Prices match sortio.ch today (Basic CHF 0 with 8 scans/month, Pro CHF 10.– per month). No CHF 9.90. Yearly CHF 79.– and the 7-day trial are allowed (App Store only): the trial always with "Danach CHF 79.– im Jahr. Vor Ablauf im App Store kündbar." and an App Store CTA; no savings claims.
 - [ ] Every amount, sender and date comes from a MUSTER sample screen and matches it exactly.
 - [ ] No invented numbers, ratings, awards, user counts, testimonials or customer names.
 - [ ] Data claims worded as on the site ("Daten in der Schweiz", "AES-256 verschlüsselt").

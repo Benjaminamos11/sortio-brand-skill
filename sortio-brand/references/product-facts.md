@@ -44,7 +44,13 @@ Pricing headline on the site: "Klar und fair. Monatlich kündbar."
 
 **App Store in-app purchases** (listing, 20 Nov 2026): "Sortio Pro" **CHF 10.00** (monthly) and "**Sortio Pro Jährlich**" **CHF 79.00** (yearly).
 
-- The yearly plan is **not on the website** yet. It was approved by Apple on 5 Nov 2026 and comes with a **7-day free trial for eligible new subscribers** (shown in the app's paywall as "7 Tage gratis testen"). The monthly plan has no trial. Neither the trial nor the yearly price appears on sortio.ch, so **mention them only after Benjamin confirms** they should be advertised, and then only as "Jahresabo CHF 79.–" / "7 Tage gratis testen (Jahresabo)". Do not compute or advertise savings ("spare 34 %") without his OK.
+- **Yearly plan and trial: approved for advertising by Benjamin (20 Nov 2026).** "Sortio Pro Jährlich" costs **CHF 79.– im Jahr** and comes with a **7-day free trial for new subscribers** (Apple introductory offer; the app's paywall says "7 Tage gratis testen"). Rules:
+  - The trial belongs to the **yearly plan only**. The monthly plan has no trial: never write "Pro 7 Tage gratis" without the yearly price next to it.
+  - Approved wording: "7 Tage gratis testen" · "Jahresabo CHF 79.–" · "Sortio Pro: CHF 10.– im Monat oder CHF 79.– im Jahr" · "7 Tage gratis testen, danach CHF 79.– im Jahr".
+  - Whenever the trial is mentioned, add the fine print **"Danach CHF 79.– im Jahr. Vor Ablauf im App Store kündbar."** (in the image or the caption).
+  - The yearly plan and the trial are **in the app and the App Store only**, not on sortio.ch yet. Use the CTA "Im App Store laden" / "Im App Store testen" and the App Store link, not sortio.ch/#preise.
+  - Still not allowed without Benjamin's OK: savings claims ("spare 34 %", "CHF 41.– günstiger", "2 Monate gratis") and any other discount.
+  - Before posting, open the App Store listing and confirm "Sortio Pro Jährlich" is still CHF 79.00.
 - **CHF 9.90 is outdated** (old ads and an old code fallback). Pro is CHF 10.– per month.
 - Write prices as "CHF 10.– / Monat", "CHF 10.– im Monat", "CHF 0 zum Start", "8 Scans pro Monat".
 
@@ -85,7 +91,7 @@ The App Store text says "deine Daten liegen in Zürich" / "auf Servern in Züric
 - "Auf Android / bei Google Play verfügbar", any Android date.
 - "Liest Italienisch" (the App Store text mentions it once, the site does not), any language beyond DE/FR/EN.
 - That Sortio AI or Auto-Fristen are free (they are Pro), or "unbegrenzt gratis".
-- Prices other than section 3, "CHF 9.90", savings or discounts that are not live, "keine Kreditkarte nötig", "in 90 Sekunden eingerichtet".
+- Prices other than section 3, "CHF 9.90", savings or discounts ("spare 34 %", "2 Monate gratis"), a trial on the monthly plan, the trial without the fine print "Danach CHF 79.– im Jahr. Vor Ablauf im App Store kündbar.", "keine Kreditkarte nötig", "in 90 Sekunden eingerichtet".
 - Naming the AI vendors behind Sortio AI.
 - Partnerships or endorsements by the companies whose letters appear in the sample screens (Helsana, Swisscom, SBB, ewz, Serafe, AXA, Migros). Their logos on the screens are the app's sender recognition, nothing more.
 - Anything about the company's revenue, subscribers, funding, investors or roadmap.
