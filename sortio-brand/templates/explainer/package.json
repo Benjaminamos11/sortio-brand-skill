@@ -1,0 +1,14 @@
+{
+  "name": "sortio-explainer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "draft": "python3 tools/vo_elevenlabs.py --draft && python3 tools/build_subtitles.py && bash tools/mix.sh",
+    "subtitles": "python3 tools/build_subtitles.py",
+    "mix": "bash tools/mix.sh",
+    "check": "npx --yes hyperframes@0.9.70 check",
+    "preview": "npx --yes hyperframes@0.9.70 preview",
+    "render": "npx --yes hyperframes@0.9.70 render --output renders/explainer.mp4",
+    "thumbnail": "python3 tools/thumbnail.py"
+  }
+}

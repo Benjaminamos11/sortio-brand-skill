@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- Story 9:16 (1080x1920): an AI photo without text (Set B, generated with room for type)
+     plus headline, lockup and CTA set in the brand fonts as HTML on top.
+     Replace the .bg image with your own text-free generation (keep the top ~30% calm for the headline).
+     Headline, lockup and CTA stay between y 250 and y 1580.
+     Based on ad 09 "In der Schweiz gespeichert." (Set B, October 2026). -->
+<html lang="de-CH"><head><meta charset="utf-8">
+<meta name="sortio:size" content="1080x1920">
+<title>Photo overlay story 9:16</title>
+<link rel="stylesheet" href="ads.css">
+<style>
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .top { position: absolute; left: 72px; right: 72px; top: 268px; }
+  h1 { font-size: 88px; line-height: 1.02; }
+  .facts { margin-top: 22px; font-family: var(--font-mono); font-weight: 500; font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; color: #2c3440; }
+  .brand { position: absolute; right: 72px; top: 284px; }
+  .cta { position: absolute; left: 50%; transform: translateX(-50%); top: 1488px; box-shadow: 0 24px 50px -24px rgba(10,11,13,0.6); }
+</style></head>
+<body>
+<div class="ad story">
+  <img class="bg" src="../../assets/examples/posts/raw/09-raw-zuerich-fenster.jpg" alt="">
+  <div class="top" data-check="headline">
+    <h1 class="serif">In der Schweiz<br>gespeichert.</h1>
+    <p class="facts">AES-256 verschlüsselt · DE · FR · EN</p>
+  </div>
+  <span class="lockup small brand" data-check="lockup"><img src="../../assets/logo/sortio-mark-origami.png" alt=""><span>Sortio</span></span>
+  <span class="cta ember" data-check="cta">Gratis starten</span>
+</div>
+</body></html>

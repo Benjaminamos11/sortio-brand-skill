@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Sortio reel template</title>
+<!--
+  Sortio reel template (HyperFrames composition, 9:16, 1080x1920, 30 fps).
+  Content, screens and timing live in reel-config.js. Edit that file first; touch this one only for layout or motion.
+  Colour and type values mirror ../../references/design-system.md. If they ever differ, design-system.md wins.
+-->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="reel-config.js"></script>
+<style>
+  @font-face { font-family: "Hedvig Letters Serif"; font-weight: 400; font-display: block; src: url("../../assets/fonts/HedvigLettersSerif-24pt-Regular-latin.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 100 900; font-display: block; src: url("../../assets/fonts/Inter-Variable-latin.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 100 800; font-display: block; src: url("../../assets/fonts/JetBrainsMono-Variable-latin.woff2") format("woff2"); }
+
+  :root {
+    --canvas: #faf9f6; --paper: #ffffff; --stone: #f1efea; --hairline: #e6e3dc;
+    --ink: #0a0b0d; --graphite: #5d6169; --steel: #8b8d98; --ember: #ff4f00;
+    --ember-soft: #fff1ea; --abyss: #000710;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #faf9f6; }
+  body { font-family: "Inter", sans-serif; color: #0a0b0d; -webkit-font-smoothing: antialiased; }
+  #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #faf9f6; }
+  #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+  .abs { position: absolute; left: 0; top: 0; }
+
+  #glow { width: 1080px; height: 1920px;
+    background: radial-gradient(520px 620px at 540px 1180px, rgba(255,79,0,0.10), rgba(255,79,0,0) 70%); }
+
+  /* headlines: eyebrow (mono) + two serif lines, mask reveal */
+  .head { position: absolute; left: 0; top: 0; width: 1080px; height: 600px; }
+  .eyebrow { position: absolute; left: 0; width: 1080px; top: 300px; text-align: center;
+    font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #8b8d98; }
+  .eyebrow .em { color: #ff4f00; }
+  .hl { position: absolute; left: 0; width: 1080px; top: 342px; text-align: center; }
+  .hl .line { overflow: hidden; height: 112px; padding-top: 4px; }
+  .hl .txt { display: inline-block; position: relative; font-family: "Hedvig Letters Serif", serif; font-weight: 400; font-size: 92px; line-height: 100px;
+    letter-spacing: -0.025em; color: #0a0b0d; white-space: nowrap; }
+  .hl .txt.em { color: #ff4f00; }
+  .strike { position: absolute; left: -6px; right: -6px; top: 56%; height: 6px; border-radius: 3px; background: #8b8d98; transform-origin: 0 50%; }
+
+  /* paper on the table */
+  .paper { position: absolute; border-radius: 6px; overflow: hidden; background: #fff;
+    box-shadow: 0 0 0 1px rgba(10,11,13,0.06), 0 40px 70px -36px rgba(10,11,13,0.45); }
+  .paper.manila { background: linear-gradient(160deg, #f1e6cc, #e8dab8); }
+  .paper .window { position: absolute; left: 60px; top: 210px; width: 340px; height: 150px; border-radius: 10px;
+    background: rgba(255,255,255,0.65); box-shadow: inset 0 0 0 1.5px rgba(10,11,13,0.10); padding: 30px 28px; }
+  .paper .window i { display: block; height: 14px; border-radius: 7px; background: rgba(10,11,13,0.16); margin-bottom: 16px; }
+  .paper .franking { position: absolute; right: 44px; top: 44px; width: 210px; height: 104px; border: 2.5px solid #23262c;
+    display: flex; align-items: center; gap: 14px; padding: 0 16px; color: #23262c; }
+  .paper .franking b { font: 800 62px/1 "Inter", sans-serif; }
+  .paper .franking span { font: 700 30px/1 "Inter", sans-serif; }
+  .crop { position: absolute; left: 0; top: 0; overflow: hidden; }
+  .crop img { position: absolute; display: block; }
+
+  /* phone */
+  #phone { left: 222px; top: 600px; width: 636px; height: 1340px; border-radius: 98px; background: #0a0b0d; padding: 18px;
+    box-shadow: 0 0 0 1px rgba(10,11,13,0.06), 0 70px 120px -50px rgba(10,11,13,0.55); }
+  #screen { position: relative; width: 600px; height: 1304px; border-radius: 80px; overflow: hidden; background: #000; }
+  #inner { position: absolute; left: 0; top: 0; width: 720px; height: 1565px; transform: scale(0.833333); transform-origin: 0 0; }
+  .layer { position: absolute; left: 0; top: 0; width: 720px; height: 1565px; overflow: hidden; background: #f6f5f2; }
+  .layer > img { position: absolute; left: 0; top: 0; width: 720px; height: 1565px; }
+  .dim { position: absolute; left: 0; top: 0; width: 720px; height: 1565px; background: #000; opacity: 0; }
+  .ring { position: absolute; border: 5px solid #ff4f00; border-radius: 34px; opacity: 0;
+    box-shadow: 0 0 0 8px rgba(255,79,0,0.12), 0 0 0 1600px rgba(246,245,242,0.62); }
+  #flash { position: absolute; left: 0; top: 0; width: 720px; height: 1565px; background: #fff; opacity: 0; }
+  #tap { position: absolute; width: 104px; height: 104px; border-radius: 50%;
+    background: rgba(255,255,255,0.55); box-shadow: 0 0 0 2px rgba(255,255,255,0.8); opacity: 0; }
+
+  /* callouts: what Sortio read, shown as full rounded cards */
+  .callout { position: absolute; display: flex; align-items: center; gap: 24px; width: 690px; height: 124px; background: #ffffff;
+    border-radius: 30px; padding: 0 28px 0 24px; opacity: 0;
+    box-shadow: 0 0 0 1px rgba(10,11,13,0.05), 0 36px 64px -28px rgba(10,11,13,0.38); }
+  .callout .ic { position: relative; width: 76px; height: 76px; border-radius: 22px; background: #fff1ea; color: #ff4f00;
+    display: flex; align-items: center; justify-content: center; flex: none; }
+  .callout .ic svg { width: 40px; height: 40px; }
+  .callout .body { flex: 1; min-width: 0; }
+  .callout .lab { font: 500 28px/1 "JetBrains Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; color: #5d6169; }
+  .callout .val { margin-top: 8px; font: 600 36px/1.25 "Inter", sans-serif; letter-spacing: -0.02em; color: #0a0b0d; white-space: nowrap; }
+  .callout .val.mono { font: 500 42px/1.25 "JetBrains Mono", monospace; letter-spacing: -0.03em; }
+  .callout .ok { position: absolute; right: -8px; bottom: -8px; width: 34px; height: 34px; border-radius: 50%; background: #ff4f00; color: #fff;
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 4px #ffffff; }
+  .callout .ok svg { width: 20px; height: 20px; }
+
+  /* end card on the dark band */
+  #end { left: 0; top: 0; width: 1080px; height: 1960px; background: #000710; border-radius: 72px 72px 0 0; overflow: hidden; }
+  #end .g1 { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px;
+    background: radial-gradient(560px 560px at 900px 380px, rgba(255,79,0,0.30), rgba(255,79,0,0) 70%),
+                radial-gradient(520px 520px at 120px 1560px, rgba(255,79,0,0.12), rgba(255,79,0,0) 70%); }
+  #logo { left: 445px; top: 296px; width: 190px; height: 190px; }
+  #logo img { width: 190px; height: 190px; display: block; }
+  .out { position: absolute; left: 0; width: 1080px; text-align: center; }
+  .out .mask { overflow: hidden; padding-bottom: 10px; }
+  .out .in { display: inline-block; white-space: nowrap; }
+  #wm { top: 500px; font: 600 96px/1.1 "Inter", sans-serif; letter-spacing: -0.035em; color: #fff; }
+  #oeb { top: 640px; font: 500 28px/1 "JetBrains Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  #ohl { top: 700px; font-family: "Hedvig Letters Serif", serif; font-size: 80px; line-height: 88px; letter-spacing: -0.025em; color: #fff; }
+  #ohl .dim2 { color: rgba(255,255,255,0.5); }
+  #cta { top: 1022px; }
+  #cta .pill { display: inline-flex; align-items: center; height: 100px; padding: 0 52px; border-radius: 50px;
+    background: #fff; color: #0a0b0d; font: 500 40px/1 "Inter", sans-serif; letter-spacing: -0.01em; }
+  #url { top: 1170px; font: 500 28px/1 "JetBrains Mono", monospace; letter-spacing: 0.04em; color: rgba(255,255,255,0.65); }
+  #url b { color: #ff4f00; font-weight: 500; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="18" data-width="1080" data-height="1920">
+  <div id="stage">
+    <div id="glow" class="abs"></div>
+    <div id="heads" class="abs"></div>
+    <div id="pile" class="abs" data-layout-ignore></div>
+    <div id="phone" class="abs">
+      <div id="screen"><div id="inner">
+        <div id="layers"></div>
+        <div id="flash"></div>
+        <div id="tap"></div>
+      </div></div>
+    </div>
+    <div id="flyer" class="abs" data-layout-ignore></div>
+    <div id="callouts" class="abs" data-layout-allow-overlap></div>
+    <div id="end" class="abs">
+      <div class="g1"></div>
+      <div id="logo" class="abs"><img id="logo-img" alt="" src="../../assets/logo/sortio-mark-origami.png"></div>
+      <div id="wm" class="out"><div class="mask"><span class="in" id="wm-t"></span></div></div>
+      <div id="oeb" class="out"><span class="in" id="oeb-t"></span></div>
+      <div id="ohl" class="out"></div>
+      <div id="cta" class="out"><span class="in pill" id="cta-t"></span></div>
+      <div id="url" class="out"><span class="in" id="url-t"></span></div>
+    </div>
+  </div>
+  <audio id="music" src="audio/soundtrack.m4a" data-start="0" data-duration="18" data-track-index="2" data-volume="1"></audio>
+</div>
+
+<script>
+// Every motion is one tween on one paused GSAP timeline, built from window.REEL (reel-config.js).
+const R = window.REEL;
+const tl = gsap.timeline({ paused: true });
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, parent, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; parent.appendChild(e); return e; };
+const place = (e, x, y, w, h) => Object.assign(e.style, { left: x + "px", top: y + "px", width: w + "px", height: h + "px" });
+
+// phone geometry: screenshot pixels (720 x 1565) -> video pixels
+const K = 600 / 720, SCX = 222 + 18, SCY = 600 + 18;   // keep in sync with #phone left/top
+const sx = (x) => SCX + x * K, sy = (y) => SCY + y * K;
+
+const ICON = {
+  building: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>',
+  banknote: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>',
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>',
+  folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>',
+  sparkle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+};
+
+// ---- scene times, all derived from the durations in reel-config.js
+const T = { hook: 0 };
+let t0 = R.hook.duration;
+T.beats = R.beats.map((b) => { const s = t0; t0 += b.duration; return s; });
+T.end = t0;
+const TOTAL = t0 + R.end.duration;
+if (Math.abs(TOTAL - R.duration) > 0.01 || Math.abs(TOTAL - +$("root").dataset.duration) > 0.01) {
+  console.error(`reel length mismatch: scenes add up to ${TOTAL}s, config says ${R.duration}s, root data-duration says ${$("root").dataset.duration}s`);
+}
+
+// ---- headline blocks
+function headline(eyebrow, lines, accentLast, strike) {
+  const wrap = el("div", "head", $("heads"));
+  const eb = el("div", "eyebrow", wrap);
+  const m = eyebrow.match(/^(\d+)(.*)$/);
+  eb.innerHTML = m ? `<span class="em">${m[1]}</span>${m[2]}` : eyebrow;
+  const hl = el("div", "hl", wrap);
+  const txts = lines.map((s, j) => {
+    const line = el("div", "line", hl);
+    const t = el("span", "txt" + (accentLast && j === lines.length - 1 ? " em" : ""), line, s);
+    if (strike) el("span", "strike", t);
+    return t;
+  });
+  return { eb, txts, strikes: [...wrap.querySelectorAll(".strike")] };
+}
+function headIn(h, at) {
+  tl.fromTo(h.eb, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, at);
+  h.txts.forEach((t, j) => {
+    // opacity too, so a line waiting below its mask never counts as visible text
+    tl.fromTo(t, { yPercent: 112, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, at + 0.06 + j * 0.08);
+  });
+}
+function headOut(h, at) {
+  tl.to([h.eb, ...h.txts], { opacity: 0, y: -20, duration: 0.24, ease: "power3.in" }, at);
+}
+
+// ---- 1. hook: post lands on the table, the line gets struck through
+const hook = headline(R.hook.eyebrow, R.hook.lines, false, R.hook.strike);   // on screen from frame 0: the first frame is the thumbnail
+const PILE_C = { x: 540, y: 1135 };
+const env = (k, manila) => ({ k, manila, w: 700, h: 480 });
+const PILE = [
+  { ...env("B", true), dx: -46, dy: 150, rot: -8, land: 0.25 },
+  { ...env("A", false), dx: 30, dy: -60, rot: 6, land: 0.7 },
+  { ...env("A", false), dx: 24, dy: 230, rot: 4, land: 1.15 },
+  { ...env("B", false), dx: -40, dy: -150, rot: -11, land: 1.5 },
+];
+const hookEnd = T.beats[0];
+PILE.forEach((p, i) => {
+  const e = el("div", "paper" + (p.manila ? " manila" : ""), $("pile"),
+    `<div class="window"><i style="width:55%"></i><i style="width:80%"></i><i style="width:65%"></i></div>
+     <div class="franking"><b>${p.k}</b><span>P.P.</span></div>`);
+  place(e, PILE_C.x + p.dx - p.w / 2, PILE_C.y + p.dy - p.h / 2, p.w, p.h);
+  const side = i % 2 ? 1 : -1;
+  tl.fromTo(e, { opacity: 0, x: side * 60, y: -110, rotation: p.rot + side * 9, scale: 1.38 },
+    { opacity: 1, x: 0, y: 0, rotation: p.rot, scale: 1, duration: 0.3, ease: "power2.in" }, p.land - 0.3);
+  tl.to(e, { y: 1100, rotation: p.rot + side * 14, opacity: 0, duration: 0.42, ease: "power2.in" }, hookEnd - 0.45 + i * 0.03);
+});
+// the top letter: a crop of the real sample letter, which then flies into the scanner thumbnail
+const L = R.hook.letter, [cx0, cy0, cx1, cy1] = L.crop;
+const LW = 560, LH = Math.round(560 * (cy1 - cy0) / (cx1 - cx0)), LS = LW / (cx1 - cx0);
+const letter = el("div", "paper crop", $("flyer"));
+place(letter, PILE_C.x - 8 - LW / 2, PILE_C.y + 26 - LH / 2, LW, LH);
+const limg = el("img", "", letter); limg.src = L.screen; limg.alt = "";
+place(limg, -cx0 * LS, -cy0 * LS, 720 * LS, 1565 * LS);
+tl.fromTo(letter, { opacity: 0, x: 60, y: -110, rotation: 6, scale: 1.38 },
+  { opacity: 1, x: 0, y: 0, rotation: -3, scale: 1, duration: 0.3, ease: "power2.in" }, 1.75 - 0.3);
+const THUMB = { x: 36, y: 240, w: 359, h: 509 };   // where the scanned page sits on the scanner screen
+tl.to(letter, { x: sx(THUMB.x + THUMB.w / 2) - (PILE_C.x - 8), y: sy(THUMB.y + THUMB.h / 2) - (PILE_C.y + 26),
+  scale: THUMB.w * K / LW, rotation: 0, duration: 0.48, ease: "power2.inOut" }, hookEnd - 0.4);
+tl.to(letter, { opacity: 0, duration: 0.1 }, hookEnd + 0.08);
+if (R.hook.strike) {
+  hook.strikes.forEach((s, j) => tl.fromTo(s, { scaleX: 0 }, { scaleX: 1, duration: 0.24, ease: "power2.inOut" }, 2.2 + j * 0.09));
+  tl.to(hook.txts, { color: "#8b8d98", duration: 0.28 }, 2.2);
+}
+headOut(hook, hookEnd - 0.34);
+
+// ---- 2. phone rises, then one beat per entry in R.beats
+tl.fromTo("#phone", { y: 1450 }, { y: 0, duration: 0.5, ease: "power3.out" }, hookEnd - 0.4);
+// a slow push-in on the phone through all beats, so no frame is ever static
+tl.fromTo("#phone", { scale: 1 }, { scale: 1.035, duration: T.end - hookEnd, ease: "none" }, hookEnd);
+
+const layers = R.beats.map((b) => {
+  const layer = el("div", "layer", $("layers"));
+  const img = el("img", "", layer); img.src = b.screen; img.alt = "";
+  el("div", "dim", layer);
+  return layer;
+});
+// the screen shown before the first beat's tap (e.g. the scanner), on top of the first beat's screen
+let before = null;
+if (R.beats[0].before) {
+  before = el("div", "layer", $("layers"));
+  const img = el("img", "", before); img.src = R.beats[0].before; img.alt = "";
+}
+layers.forEach((l, i) => { if (i > 0) tl.set(l, { x: 720, autoAlpha: 0 }, 0); });
+
+const FIELD_Y = sy(1286);
+let pending = [];   // callouts of the previous beat, if the next beat collects them
+
+R.beats.forEach((b, i) => {
+  const start = T.beats[i], end = start + b.duration;
+  const h = headline(b.eyebrow, b.lines, true, false);
+  headIn(h, start - 0.04);
+  headOut(h, end - 0.14);
+
+  // screen change: the first beat taps and flashes, the others push in from the right
+  let ready = start + 0.35;
+  if (i === 0 && before) {
+    const [tx, ty] = b.tap || [360, 1422];
+    place($("tap"), tx - 52, ty - 52, 104, 104);
+    tl.fromTo("#tap", { opacity: 0, scale: 1.35 }, { opacity: 0.9, scale: 1, duration: 0.12 }, start + 0.3);
+    tl.to("#tap", { opacity: 0, duration: 0.18 }, start + 0.44);
+    tl.to("#flash", { opacity: 1, duration: 0.05 }, start + 0.48);
+    tl.set(before, { opacity: 0 }, start + 0.54);
+    tl.to("#flash", { opacity: 0, duration: 0.32, ease: "power2.out" }, start + 0.56);
+    ready = start + 0.85;
+  } else if (i > 0) {
+    tl.to(layers[i - 1], { x: -216, duration: 0.42, ease: "power2.inOut" }, start - 0.06);
+    tl.to(layers[i - 1].querySelector(".dim"), { opacity: 0.14, duration: 0.42 }, start - 0.06);
+    tl.set(layers[i], { autoAlpha: 1 }, start - 0.06);
+    tl.fromTo(layers[i], { x: 720 }, { x: 0, duration: 0.42, ease: "power2.inOut" }, start - 0.06);
+    tl.set(layers[i - 1], { autoAlpha: 0 }, start + 0.4);
+  }
+
+  // highlight ring with a soft veil over the rest of the screen
+  let ringAt = ready + 0.1;
+  if (b.highlight) {
+    const [x0, y0, x1, y1] = b.highlight;
+    const ring = el("div", "ring", layers[i]);
+    place(ring, x0 + 4, y0 + 4, x1 - x0 - 8, y1 - y0 - 8);
+    // previous callouts drop into the highlighted place
+    if (b.collect && pending.length) {
+      const hx = sx((x0 + x1) / 2), hy = sy((y0 + y1) / 2);
+      pending.forEach(({ e, cy }, j) => {
+        tl.to(e, { x: hx - 540, y: hy - cy, scale: 0.16, rotation: 0, duration: 0.36, ease: "power2.inOut" }, start + 0.3 + j * 0.03);
+        tl.to(e, { opacity: 0, duration: 0.12 }, start + 0.56 + j * 0.03);
+      });
+      ringAt = start + 0.62;
+    }
+    tl.fromTo(ring, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, ringAt);
+    tl.to(ring, { opacity: 0, duration: 0.3 }, end - 0.3);
+  }
+  pending = [];
+
+  // callouts pop out of the phone and stack in the middle of the frame
+  const n = b.callouts.length;
+  const next = R.beats[i + 1];
+  b.callouts.forEach((c, j) => {
+    const cy = c.y || Math.round(1030 + (j - (n - 1) / 2) * 150);
+    const e = el("div", "callout", $("callouts"),
+      `<div class="ic">${ICON[c.icon] || ICON.check}<div class="ok">${ICON.check}</div></div>` +
+      `<div class="body"><div class="lab">${c.label}</div><div class="val${c.mono ? " mono" : ""}">${c.value}</div></div>`);
+    place(e, 195, cy - 62, 690, 124);
+    const at = (b.highlight ? ringAt + 0.15 : ready) + j * 0.25;
+    tl.fromTo(e, { opacity: 0, y: FIELD_Y - cy, scale: 0.45, rotation: 0 },
+      { opacity: 1, y: 0, scale: 1, rotation: [-1.6, 1.2, -0.8][j % 3], duration: 0.5, ease: "back.out(1.4)" }, at);
+    if (next && next.collect && next.highlight) {
+      tl.to(e, { y: 1030 + (j - 1) * 16 - cy, rotation: (j - 1) * 2.2, scale: 0.92, duration: 0.34, ease: "power2.inOut" }, end - 0.3);
+      pending.push({ e, cy });
+    } else {
+      tl.to(e, { opacity: 0, y: -30, scale: 0.92, duration: 0.25, ease: "power2.in" }, end - 0.3);
+    }
+  });
+});
+
+// ---- 3. end card on the dark band
+const E = T.end, X = R.end;
+$("wm-t").textContent = X.wordmark;
+$("oeb-t").textContent = X.eyebrow;
+$("cta-t").textContent = X.cta;
+$("url-t").innerHTML = `${X.url} · <b>${X.urlNote}</b>`;
+$("logo-img").src = R.logo;
+X.lines.forEach((s, j) => el("div", "mask", $("ohl"), `<span class="in${j ? " dim2" : ""}">${s}</span>`));
+tl.set("#end", { autoAlpha: 0 }, 0);
+tl.set("#end", { autoAlpha: 1 }, E);
+tl.fromTo("#end", { y: 1960, borderRadius: "72px 72px 0px 0px" }, { y: 0, duration: 0.5, ease: "power2.inOut" }, E);
+tl.to("#end", { borderRadius: "0px 0px 0px 0px", duration: 0.2 }, E + 0.32);
+tl.to("#phone", { y: -160, opacity: 0, duration: 0.5, ease: "power2.in" }, E);
+tl.fromTo("#logo", { opacity: 0, x: -705, y: 1054, rotation: 32, scale: 0.55 },
+  { opacity: 1, x: 0, y: 0, rotation: 0, scale: 1, duration: 0.74, ease: "power3.out" }, E + 0.3);
+tl.to("#logo", { y: -6, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, E + 1.06);
+tl.fromTo("#wm-t", { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, E + 0.68);
+tl.fromTo("#oeb", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.38, ease: "power3.out" }, E + 0.8);
+document.querySelectorAll("#ohl .in").forEach((s, j) =>
+  tl.fromTo(s, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, E + 0.9 + j * 0.08));
+tl.fromTo("#cta", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.42, ease: "back.out(1.6)" }, E + 1.36);
+tl.fromTo("#url", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.44, ease: "power3.out" }, E + 1.54);
+
+// keep the timeline exactly as long as the reel
+tl.set({}, {}, TOTAL);
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

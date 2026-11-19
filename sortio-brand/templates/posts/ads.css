@@ -1,0 +1,115 @@
+/* Sortio social templates: shared styles.
+   Tokens mirror sortio.ch (app/globals.css) and the October 2026 Instagram ad kit.
+   Fonts load from ../../assets/fonts (bundled, OFL). If those files are missing,
+   the Google Fonts import below is the fallback (needs internet). */
+
+@import url("https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=block");
+
+@font-face { font-family: "Hedvig Letters Serif"; src: url("../../assets/fonts/HedvigLettersSerif-24pt-Regular-latin.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: "Inter"; src: url("../../assets/fonts/Inter-Variable-latin.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: block; }
+@font-face { font-family: "JetBrains Mono"; src: url("../../assets/fonts/JetBrainsMono-Variable-latin.woff2") format("woff2"); font-weight: 100 800; font-style: normal; font-display: block; }
+
+:root {
+  /* Surfaces */
+  --canvas: #faf9f6;      /* warm white page */
+  --paper: #ffffff;       /* cards */
+  --stone: #f1efea;       /* tinted panels, table heads */
+  --hairline: #e6e3dc;    /* 1.5px borders on cards */
+  /* Text */
+  --ink: #0a0b0d;         /* headlines, primary button */
+  --graphite: #5d6169;    /* body, second headline line */
+  --steel: #8b8d98;       /* eyebrows, fine print */
+  /* Accent (one per layout) */
+  --ember: #ff4f00;
+  --ember-soft: #fff1ea;
+  --ember-hover: #e64700;
+  /* Dark band */
+  --abyss: #000710;
+  --carbon: #15191e;
+  --phone-dark: #1a1e24;  /* phone body on the abyss band */
+  /* Quiet supporting tones (cards, never text accents) */
+  --moss: #4f6b4a;        /* site token: success, "bezahlt" */
+  --moss-deep: #2f4430;   /* use-case card on sortio.ch */
+  --ochre: #a8782a;
+  --brick: #a4513a;
+
+  --font-display: "Hedvig Letters Serif", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --radius-chip: 999px;
+  --radius-card: 28px;
+  --radius-panel: 40px;
+
+  /* Soft layered shadows (light backgrounds) */
+  --shadow-card: 0 1px 2px rgba(10, 11, 13, 0.04), 0 30px 60px -40px rgba(10, 11, 13, 0.45);
+  --shadow-float: 0 2px 6px rgba(10, 11, 13, 0.05), 0 40px 80px -40px rgba(10, 11, 13, 0.5);
+  --shadow-phone: 0 60px 120px -48px rgba(10, 11, 13, 0.55), 0 0 0 1px rgba(10, 11, 13, 0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--canvas); }
+body { -webkit-font-smoothing: antialiased; font-family: var(--font-sans); color: var(--ink); }
+
+/* Canvas sizes. render.py also reads <meta name="sortio:size">. */
+.ad { position: relative; overflow: hidden; background: var(--canvas); }
+.post { width: 1080px; height: 1350px; }      /* feed 4:5 */
+.story { width: 1080px; height: 1920px; }     /* story / reel cover 9:16 */
+.square { width: 1080px; height: 1080px; }    /* feed 1:1, carousel */
+.landscape { width: 1920px; height: 1080px; } /* 16:9 web, YouTube, LinkedIn video cover */
+
+/* Type */
+.serif { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.025em; line-height: 1.04; }
+.mono { font-family: var(--font-mono); }
+.eyebrow { font-family: var(--font-mono); font-weight: 500; font-size: 22px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--steel); }
+.muted { color: var(--graphite); }
+.ember-text { color: var(--ember); }
+.body-l { font-size: 32px; line-height: 1.45; letter-spacing: -0.01em; color: var(--graphite); }
+.amount { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
+
+/* Logo lockup: origami mark + "Sortio" in Inter 600 */
+.lockup { display: inline-flex; align-items: center; gap: 14px; }
+.lockup img { width: 58px; height: 58px; }
+.lockup span { font-family: var(--font-sans); font-weight: 600; font-size: 40px; letter-spacing: -0.02em; color: var(--ink); }
+.lockup.light span { color: #fff; }
+.lockup.small img { width: 50px; height: 50px; }
+.lockup.small span { font-size: 34px; }
+
+/* CTA pill. Black is the default, ember for "Gratis starten", white on dark. */
+.cta { display: inline-flex; align-items: center; justify-content: center; gap: 14px; height: 92px; padding: 0 44px; border-radius: 999px;
+  background: var(--ink); color: #fff; font-family: var(--font-sans); font-weight: 500; font-size: 32px; letter-spacing: -0.01em; white-space: nowrap; }
+.cta.ember { background: var(--ember); }
+.cta.white { background: #fff; color: var(--ink); }
+.cta svg { width: 30px; height: 30px; fill: currentColor; }
+
+/* Phone body as on the site: ink, radius ~16.5% of width, bezel ~3.45%, long soft shadow. Set --w. */
+.phone { position: absolute; width: var(--w); background: var(--ink); border-radius: calc(var(--w) * 0.1655); padding: calc(var(--w) * 0.0345);
+  box-shadow: var(--shadow-phone); }
+.phone.on-dark { background: var(--phone-dark); box-shadow: 0 60px 120px -40px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 255, 255, 0.13); }
+.phone .screen { position: relative; overflow: hidden; border-radius: calc(var(--w) * 0.134); aspect-ratio: 720 / 1565; background: var(--canvas); }
+.phone .screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Ember glow behind phones and price cards. */
+.glow { position: absolute; border-radius: 50%; background: rgba(255, 79, 0, 0.10); filter: blur(90px); pointer-events: none; }
+
+/* Check mark in an ember circle. */
+.check { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 50%; background: var(--ember); color: #fff; }
+.check svg { fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.chip { display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 999px; border: 1.5px solid var(--hairline); background: var(--paper);
+  font-size: 24px; color: var(--graphite); letter-spacing: -0.005em; white-space: nowrap; }
+.chip.on-dark { border-color: rgba(255, 255, 255, 0.15); background: transparent; color: rgba(255, 255, 255, 0.75); }
+
+/* Cards are always complete: rounded on all corners, full hairline or none, soft shadow.
+   Never a coloured line on one side only (no border-left callouts, no inset stripe). */
+.card { background: var(--paper); border: 1.5px solid var(--hairline); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); }
+.panel { background: var(--stone); border: 1.5px solid var(--hairline); border-radius: var(--radius-panel); }
+.panel.ember { background: var(--ember); border: 0; color: #fff; }
+.panel.ink { background: var(--ink); border: 0; color: #fff; }
+
+/* Sortio AI chat: question bubble (ember, tail corner bottom-right) and answer card (white). */
+.bubble-q { background: var(--ember); color: #fff; border-radius: 40px 40px 12px 40px; padding: 30px 36px 32px;
+  font-size: 37px; line-height: 1.28; font-weight: 500; letter-spacing: -0.015em; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.55); }
+.bubble-a { background: #fff; color: var(--ink); border-radius: 36px; padding: 32px 38px 34px; box-shadow: 0 40px 80px -36px rgba(0, 0, 0, 0.6); }
+.bubble-a .eyebrow { color: var(--ember); font-size: 20px; }
+.bubble-a p { margin-top: 12px; font-size: 29px; line-height: 1.35; color: var(--graphite); letter-spacing: -0.01em; }

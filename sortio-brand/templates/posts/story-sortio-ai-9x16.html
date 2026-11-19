@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Story 9:16 (1080x1920) on the dark abyss band. Real Sortio AI chat screen in a phone,
+     an enlarged question bubble and answer card that repeat what the screen shows.
+     All text and the CTA stay between y 250 and y 1580 (Instagram UI covers the rest).
+     Only use amounts that appear on the screenshot (sample data, letters marked MUSTER).
+     Based on ad 04 "Frag deine Unterlagen" (Set A, October 2026). -->
+<html lang="de-CH"><head><meta charset="utf-8">
+<meta name="sortio:size" content="1080x1920">
+<title>Sortio AI story 9:16</title>
+<link rel="stylesheet" href="ads.css">
+<style>
+  .ad { background: var(--abyss); color: #fff; }
+  .glowA { position: absolute; right: -160px; top: 480px; width: 760px; height: 760px; border-radius: 50%; background: rgba(255,79,0,0.17); filter: blur(140px); }
+  .top { position: absolute; left: 72px; right: 72px; top: 272px; }
+  .top .eyebrow { color: rgba(255,255,255,0.5); }
+  h1 { margin-top: 22px; font-size: 96px; color: #fff; }
+  h1 .d { display: block; color: rgba(255,255,255,0.45); }
+  .phone { --w: 560px; left: 448px; top: 668px; }
+  .fade { position: absolute; left: 0; right: 0; top: 1180px; height: 330px; background: linear-gradient(to bottom, rgba(0,7,16,0) 0%, rgba(0,7,16,0.9) 62%, var(--abyss) 100%); }
+  .base { position: absolute; left: 0; right: 0; top: 1510px; bottom: 0; background: var(--abyss); }
+  .q { position: absolute; left: 64px; top: 742px; width: 520px; }
+  .a { position: absolute; left: 64px; top: 1020px; width: 560px; }
+  .a .tot { margin-top: 18px; padding-top: 18px; border-top: 1.5px solid var(--hairline); display: flex; align-items: baseline; justify-content: space-between; }
+  .a .tot span:first-child { font-family: var(--font-mono); font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--steel); }
+  .a .tot span:last-child { font-family: var(--font-mono); font-size: 50px; letter-spacing: -0.03em; color: var(--ink); }
+  .foot { position: absolute; left: 72px; right: 72px; top: 1468px; display: flex; align-items: center; justify-content: space-between; }
+</style></head>
+<body>
+<div class="ad story">
+  <div class="glowA"></div>
+  <div class="top" data-check="headline">
+    <p class="eyebrow">Sortio AI</p>
+    <h1 class="serif">Frag deine Unterlagen.<span class="d">Bekomm Antworten.</span></h1>
+  </div>
+  <div class="phone on-dark"><div class="screen"><img src="../../assets/screens/chat-open-bills.webp" alt="Sortio AI listet die offenen Rechnungen im Oktober (Musterdaten)"></div></div>
+  <div class="fade"></div><div class="base"></div>
+  <div class="q bubble-q" data-check="question">Welche Rechnungen sind diesen Monat noch offen?</div>
+  <div class="a bubble-a" data-check="answer">
+    <p class="eyebrow">Sortio AI</p>
+    <p>Im Oktober sind noch 4 Rechnungen offen, jede mit Betrag und Fälligkeit.</p>
+    <div class="tot"><span>Total</span><span>CHF 3’168.25</span></div>
+  </div>
+  <div class="foot" data-check="foot">
+    <span class="lockup light"><img src="../../assets/logo/sortio-mark-origami.png" alt=""><span>Sortio</span></span>
+    <span class="cta white"><svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>Im App Store laden</span>
+  </div>
+</div>
+</body></html>

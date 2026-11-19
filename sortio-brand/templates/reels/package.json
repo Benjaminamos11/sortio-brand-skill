@@ -1,0 +1,12 @@
+{
+  "name": "sortio-reel",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "soundtrack": "python3 tools/soundtrack.py",
+    "check": "npx --yes hyperframes@0.9.70 check",
+    "preview": "npx --yes hyperframes@0.9.70 preview",
+    "render": "npx --yes hyperframes@0.9.70 render --output renders/reel.mp4",
+    "finalize": "bash tools/finalize.sh renders/reel.mp4 5.4"
+  }
+}

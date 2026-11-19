@@ -1,0 +1,66 @@
+<!doctype html>
+<!-- Carousel slide 4:5 (1080x1350), after the "Im Alltag" use-case cards on sortio.ch.
+     One situation per slide: tag, number, icon tile, title (serif), problem, what Sortio does, outcome chip.
+     Tone = class on .ad: tone-ink (default), tone-paper, tone-ember, tone-moss, tone-stone.
+     Keep the same tone order across a carousel and number slides "01 / 06", "02 / 06" ...
+     For a square carousel change class "post" to "square" and the meta size to 1080x1080. -->
+<html lang="de-CH"><head><meta charset="utf-8">
+<meta name="sortio:size" content="1080x1350">
+<title>Carousel slide 4:5</title>
+<link rel="stylesheet" href="ads.css">
+<style>
+  .ad { padding: 80px 80px 0; display: flex; flex-direction: column; }
+  .meta { display: flex; align-items: center; justify-content: space-between; }
+  .tag { display: inline-flex; align-items: center; height: 50px; padding: 0 24px; border-radius: 999px; font-family: var(--font-mono); font-size: 20px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .num { font-family: var(--font-mono); font-size: 26px; letter-spacing: 0.02em; }
+  .icon { margin-top: auto; width: 112px; height: 112px; border-radius: 34px; display: inline-flex; align-items: center; justify-content: center; }
+  .icon svg { width: 56px; height: 56px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  h1 { margin-top: 52px; font-size: 88px; line-height: 1.06; letter-spacing: -0.025em; }
+  .problem { margin-top: 40px; font-size: 32px; line-height: 1.5; letter-spacing: -0.01em; }
+  .sortio { margin-top: 22px; font-size: 32px; line-height: 1.5; letter-spacing: -0.01em; font-weight: 500; }
+  .bottom { margin-top: 88px; padding-bottom: 80px; display: flex; align-items: center; justify-content: space-between; }
+  .outcome { display: inline-flex; align-items: center; gap: 14px; height: 72px; padding: 0 30px; border-radius: 999px; font-size: 27px; font-weight: 500; }
+  .outcome svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+
+  .tone-ink { background: var(--ink); color: #fff; }
+  .tone-ink .tag, .tone-ink .outcome, .tone-ink .icon { background: rgba(255,255,255,0.10); color: #fff; }
+  .tone-ink .num, .tone-ink .problem { color: rgba(255,255,255,0.6); }
+  .tone-ink .lockup span { color: #fff; }
+
+  .tone-ember { background: var(--ember); color: #fff; }
+  .tone-ember .tag, .tone-ember .outcome, .tone-ember .icon { background: rgba(255,255,255,0.2); color: #fff; }
+  .tone-ember .num, .tone-ember .problem { color: rgba(255,255,255,0.8); }
+  /* The orange mark disappears on ember: lockup sits on a white pill. */
+  .tone-ember .lockup { background: #fff; border-radius: 999px; padding: 10px 24px 10px 16px; }
+  .tone-ember .lockup span { color: var(--ink); }
+
+  .tone-moss { background: var(--moss-deep); color: #fff; }
+  .tone-moss .tag, .tone-moss .outcome, .tone-moss .icon { background: rgba(255,255,255,0.10); color: #fff; }
+  .tone-moss .num, .tone-moss .problem { color: rgba(255,255,255,0.65); }
+  .tone-moss .lockup span { color: #fff; }
+
+  .tone-paper { background: var(--paper); color: var(--ink); }
+  .tone-paper .tag, .tone-paper .outcome { background: var(--stone); color: var(--ink); }
+  .tone-paper .icon { background: var(--ember-soft); color: var(--ember); }
+  .tone-paper .num, .tone-paper .problem { color: var(--graphite); }
+
+  .tone-stone { background: var(--stone); color: var(--ink); }
+  .tone-stone .tag, .tone-stone .outcome, .tone-stone .icon { background: var(--paper); color: var(--ink); }
+  .tone-stone .num, .tone-stone .problem { color: var(--graphite); }
+</style></head>
+<body>
+<div class="ad post tone-ink">
+  <div class="meta">
+    <span class="tag">Privat</span>
+    <span class="num">02 / 06</span>
+  </div>
+  <span class="icon"><svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+  <h1 class="serif" data-check="title">Die Kündigungsfrist, die man immer verpasst.</h1>
+  <p class="problem" data-check="problem">Die Versicherung verlängert sich automatisch. Kündigen ginge nur bis Ende November – wenn man daran denkt.</p>
+  <p class="sortio" data-check="sortio">Sortio liest die Frist aus dem Brief und legt eine Aufgabe an, bevor es zu spät ist.</p>
+  <div class="bottom" data-check="bottom">
+    <span class="outcome"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Frist erkannt, Aufgabe erstellt</span>
+    <span class="lockup small"><img src="../../assets/logo/sortio-mark-origami.png" alt=""><span>Sortio</span></span>
+  </div>
+</div>
+</body></html>

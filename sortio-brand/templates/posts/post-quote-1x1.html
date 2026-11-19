@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- Text-only post 1:1 (1080x1080). A question people ask Sortio AI, set big in the serif,
+     on a complete ember card. This is a sample question, never a customer quote or testimonial.
+     Question and answer line are from sortio.ch ("Im Alltag", card 04).
+     Swap the card tone with a class on .quote: ember (default), ink, stone. -->
+<html lang="de-CH"><head><meta charset="utf-8">
+<meta name="sortio:size" content="1080x1080">
+<title>Quote post 1:1</title>
+<link rel="stylesheet" href="ads.css">
+<style>
+  .quote { position: absolute; left: 56px; right: 56px; top: 56px; bottom: 196px; border-radius: 44px; padding: 64px 68px;
+    display: flex; flex-direction: column; overflow: hidden; background: var(--ember); color: #fff;
+    box-shadow: 0 2px 6px rgba(10,11,13,0.06), 0 50px 90px -50px rgba(255,79,0,0.65); }
+  .quote.ink { background: var(--ink); box-shadow: var(--shadow-float); }
+  .quote.stone { background: var(--stone); color: var(--ink); box-shadow: var(--shadow-card); }
+  .quote .tag { display: inline-flex; align-self: flex-start; align-items: center; gap: 12px; height: 48px; padding: 0 22px; border-radius: 999px;
+    background: rgba(255,255,255,0.2); font-family: var(--font-mono); font-size: 19px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .quote.stone .tag { background: var(--paper); color: var(--ink); }
+  .quote .tag svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .quote blockquote { margin-top: auto; font-family: var(--font-display); font-size: 74px; line-height: 1.08; letter-spacing: -0.025em; }
+  .quote p { margin-top: 30px; font-size: 29px; line-height: 1.45; letter-spacing: -0.01em; color: rgba(255,255,255,0.86); max-width: 800px; }
+  .quote.stone p { color: var(--graphite); }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 56px; display: flex; align-items: center; justify-content: space-between; }
+  .foot .cta { height: 84px; font-size: 30px; padding: 0 40px; }
+</style></head>
+<body>
+<div class="ad square">
+  <div class="quote" data-check="card">
+    <span class="tag"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></svg>Frag Sortio AI</span>
+    <blockquote data-check="question">«Wie viel habe ich dieses Jahr für die Krankenkasse bezahlt?»</blockquote>
+    <p data-check="answer">Sortio sucht die passenden Dokumente und rechnet zusammen – in Franken.</p>
+  </div>
+  <div class="foot" data-check="foot">
+    <span class="lockup"><img src="../../assets/logo/sortio-mark-origami.png" alt=""><span>Sortio</span></span>
+    <span class="cta">Gratis starten</span>
+  </div>
+</div>
+</body></html>

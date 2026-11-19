@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- Feed post 4:5 (1080x1350). One feature, one real app crop, one CTA.
+     Edit: eyebrow, headline (2nd line in ember), body (max 2 lines), the crop image, the CTA.
+     Crops live in ../../assets/screens/crops/, full screens in ../../assets/screens/.
+     Based on ad 02 "QR-Rechnungen ohne Abtippen" (Set A, October 2026). -->
+<html lang="de-CH"><head><meta charset="utf-8">
+<meta name="sortio:size" content="1080x1350">
+<title>Feature post 4:5</title>
+<link rel="stylesheet" href="ads.css">
+<style>
+  .top { position: absolute; left: 72px; right: 72px; top: 80px; }
+  h1 { font-size: 92px; margin-top: 24px; }
+  h1 .e { display: block; color: var(--ember); }
+  .body { margin-top: 30px; font-size: 30px; line-height: 1.5; color: var(--graphite); max-width: 860px; letter-spacing: -0.01em; }
+  .panel { position: absolute; left: 40px; right: 40px; top: 530px; bottom: -40px; }
+  .glow { width: 620px; height: 420px; left: 190px; top: 640px; }
+  .crop { position: absolute; left: 50%; transform: translateX(-50%); top: 590px; width: 772px; padding: 22px 22px 0; height: 520px; border-radius: 34px; overflow: hidden;
+    border: 1.5px solid var(--hairline); background: #fff; box-shadow: var(--shadow-float); }
+  .crop img { display: block; width: 100%; margin-top: -10px; }
+  .foot { position: absolute; left: 96px; right: 96px; bottom: 76px; display: flex; align-items: center; justify-content: space-between; }
+</style></head>
+<body>
+<div class="ad post">
+  <div class="top">
+    <p class="eyebrow">Bezahlen</p>
+    <h1 class="serif" data-check="headline">QR-Rechnungen<span class="e">ohne Abtippen.</span></h1>
+    <p class="body" data-check="body">IBAN und Referenz liegen bereit, ein Tipp öffnet deine Banking-App. Danach als bezahlt markieren – fertig.</p>
+  </div>
+  <div class="panel"></div>
+  <div class="glow"></div>
+  <div class="crop"><img src="../../assets/screens/crops/payment.webp" alt="IBAN, Referenz und Bezahlen-Knopf in Sortio (Musterdaten)"></div>
+  <div class="foot" data-check="foot">
+    <span class="lockup"><img src="../../assets/logo/sortio-mark-origami.png" alt=""><span>Sortio</span></span>
+    <span class="cta"><svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>Im App Store laden</span>
+  </div>
+</div>
+</body></html>

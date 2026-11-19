@@ -1,0 +1,6 @@
+renders/
+.hyperframes/
+__pycache__/
+.env
+vo/cache/
+*.wav

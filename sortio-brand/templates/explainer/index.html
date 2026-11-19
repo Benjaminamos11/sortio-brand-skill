@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Sortio explainer</title>
+<!--
+  Sortio explainer skeleton (HyperFrames composition, 16:9, 1920x1080, 30 fps).
+  scenes.js   what each scene shows and on which spoken word things appear (cue = [line index in lines.json, word])
+  vo-data.js  word and line times plus caption chunks, written by tools/build_subtitles.py (never edit by hand)
+  The root and <audio id="mix"> data-duration are set by tools/build_subtitles.py.
+  Colours and type mirror ../../references/design-system.md; if they differ, design-system.md wins.
+-->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="vo-data.js"></script>
+<script src="scenes.js"></script>
+<style>
+  @font-face { font-family: "Hedvig Letters Serif"; font-weight: 400; font-display: block; src: url("../../assets/fonts/HedvigLettersSerif-24pt-Regular-latin.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 100 900; font-display: block; src: url("../../assets/fonts/Inter-Variable-latin.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 100 800; font-display: block; src: url("../../assets/fonts/JetBrainsMono-Variable-latin.woff2") format("woff2"); }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #faf9f6; }
+  body { font-family: "Inter", sans-serif; color: #0a0b0d; -webkit-font-smoothing: antialiased; }
+  #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #faf9f6; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+  .abs { position: absolute; left: 0; top: 0; }
+  #glow { width: 1920px; height: 1080px; background: radial-gradient(700px 600px at 1440px 560px, rgba(255,79,0,0.09), rgba(255,79,0,0) 70%); }
+
+  .scene { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; opacity: 0; }
+  .eyebrow { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #8b8d98; }
+  .eyebrow .em { color: #ff4f00; }
+  .hl .line { overflow: hidden; padding-top: 4px; }
+  .hl .txt { display: inline-block; font-family: "Hedvig Letters Serif", serif; font-weight: 400; letter-spacing: -0.025em; color: #0a0b0d; white-space: nowrap; }
+  .hl .txt.em { color: #ff4f00; }
+
+  /* title scene: centred */
+  .t-title .eyebrow { position: absolute; left: 0; width: 1920px; top: 330px; text-align: center; }
+  .t-title .hl { position: absolute; left: 0; width: 1920px; top: 380px; text-align: center; }
+  .t-title .hl .line { height: 150px; }
+  .t-title .hl .txt { font-size: 136px; line-height: 144px; }
+
+  /* phone scene: text column left, phone right */
+  .t-phone .eyebrow, .t-points .eyebrow { position: absolute; left: 160px; top: 200px; }
+  .t-phone .hl { position: absolute; left: 160px; top: 244px; }
+  .t-phone .hl .line, .t-points .hl .line { height: 112px; }
+  .t-phone .hl .txt, .t-points .hl .txt { font-size: 96px; line-height: 104px; }
+
+  .callout { position: absolute; display: flex; align-items: center; gap: 24px; width: 720px; height: 116px; background: #fff;
+    border-radius: 28px; padding: 0 28px 0 22px; opacity: 0; box-shadow: 0 0 0 1px rgba(10,11,13,0.05), 0 30px 56px -26px rgba(10,11,13,0.35); }
+  .ic { position: relative; width: 72px; height: 72px; border-radius: 21px; background: #fff1ea; color: #ff4f00;
+    display: flex; align-items: center; justify-content: center; flex: none; }
+  .ic svg { width: 38px; height: 38px; }
+  .ok { position: absolute; right: -8px; bottom: -8px; width: 32px; height: 32px; border-radius: 50%; background: #ff4f00; color: #fff;
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 4px #fff; }
+  .ok svg { width: 18px; height: 18px; }
+  .lab { font: 500 28px/1 "JetBrains Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; color: #5d6169; }
+  .val { margin-top: 8px; font: 600 36px/1.25 "Inter", sans-serif; letter-spacing: -0.02em; color: #0a0b0d; white-space: nowrap; }
+  .val.mono { font: 500 40px/1.25 "JetBrains Mono", monospace; letter-spacing: -0.03em; }
+
+  #phone { left: 1236px; top: 78px; width: 456px; height: 954px; border-radius: 72px; background: #0a0b0d; padding: 16px; opacity: 0;
+    box-shadow: 0 0 0 1px rgba(10,11,13,0.06), 0 60px 110px -50px rgba(10,11,13,0.55); }
+  #screen { position: relative; width: 424px; height: 922px; border-radius: 58px; overflow: hidden; background: #f6f5f2; }
+  #inner { position: absolute; left: 0; top: 0; width: 720px; height: 1565px; transform: scale(0.588889); transform-origin: 0 0; }
+  .layer { position: absolute; left: 0; top: 0; width: 720px; height: 1565px; overflow: hidden; background: #f6f5f2; }
+  .layer > img { position: absolute; left: 0; top: 0; width: 720px; height: 1565px; }
+  .ring { position: absolute; border: 6px solid #ff4f00; border-radius: 34px; opacity: 0;
+    box-shadow: 0 0 0 10px rgba(255,79,0,0.12), 0 0 0 1600px rgba(246,245,242,0.62); }
+
+  /* points scene: headline left, three full cards in a row */
+  .t-points .hl { position: absolute; left: 160px; top: 244px; }
+  .point { position: absolute; top: 560px; width: 500px; height: 220px; background: #fff; border-radius: 32px; padding: 34px 34px; opacity: 0;
+    box-shadow: 0 0 0 1px rgba(10,11,13,0.05), 0 30px 56px -26px rgba(10,11,13,0.30); }
+  .point .ic { margin-bottom: 26px; }
+  .point .ptxt { font: 600 36px/1.2 "Inter", sans-serif; letter-spacing: -0.02em; color: #0a0b0d; }
+
+  /* end card on the dark band */
+  .t-end { background: #000710; }
+  .t-end .g1 { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+    background: radial-gradient(700px 600px at 1500px 260px, rgba(255,79,0,0.28), rgba(255,79,0,0) 70%),
+                radial-gradient(600px 600px at 300px 980px, rgba(255,79,0,0.10), rgba(255,79,0,0) 70%); }
+  .t-end .logo { position: absolute; left: 885px; top: 150px; width: 150px; height: 150px; }
+  .t-end .out { position: absolute; left: 0; width: 1920px; text-align: center; }
+  .t-end .mask { overflow: hidden; padding-bottom: 8px; }
+  .t-end .in { display: inline-block; white-space: nowrap; }
+  .t-end .wm { top: 318px; font: 600 96px/1.1 "Inter", sans-serif; letter-spacing: -0.035em; color: #fff; }
+  .t-end .ehl { top: 460px; font-family: "Hedvig Letters Serif", serif; font-size: 76px; line-height: 86px; letter-spacing: -0.025em; color: #fff; }
+  .t-end .ehl .dim2 { color: rgba(255,255,255,0.5); }
+  .t-end .cta { top: 690px; }
+  .t-end .pill { display: inline-flex; align-items: center; height: 96px; padding: 0 50px; border-radius: 48px; background: #fff; color: #0a0b0d;
+    font: 500 38px/1 "Inter", sans-serif; letter-spacing: -0.01em; }
+  .t-end .url { top: 826px; font: 500 28px/1 "JetBrains Mono", monospace; letter-spacing: 0.04em; color: rgba(255,255,255,0.65); }
+  .t-end .url b { color: #ff4f00; font-weight: 500; }
+
+  /* burned-in captions: one full white card, key words in ember */
+  #caps { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  .cap { position: absolute; top: 950px; height: 76px; display: flex; justify-content: center; opacity: 0; }
+  .cap span.c { display: inline-block; height: 76px; padding: 0 28px; border-radius: 22px; background: rgba(255,255,255,0.96);
+    font: 600 42px/76px "Inter", sans-serif; letter-spacing: -0.015em; color: #0a0b0d; white-space: nowrap;
+    box-shadow: 0 0 0 1px rgba(10,11,13,0.06), 0 18px 40px -18px rgba(10,11,13,0.35); }
+  .cap .k { color: #ff4f00; }
+  #draft { position: absolute; right: 40px; top: 36px; padding: 10px 18px; border-radius: 12px; background: #0a0b0d; color: #fff;
+    font: 500 22px/1 "JetBrains Mono", monospace; letter-spacing: 0.12em; display: none; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="82.6" data-width="1920" data-height="1080">
+  <div id="stage">
+    <div id="glow" class="abs"></div>
+    <div id="scenes" class="abs"></div>
+    <div id="phone" class="abs"><div id="screen"><div id="inner"><div id="layers"></div></div></div></div>
+    <div id="callouts" class="abs" data-layout-allow-overlap></div>
+    <div id="ends" class="abs"></div>
+    <div id="caps" data-layout-allow-overlap></div>
+    <div id="draft" data-layout-ignore>DRAFT VOICE</div>
+  </div>
+  <audio id="mix" src="audio/mix.m4a" data-start="0" data-duration="82.6" data-track-index="2" data-volume="1"></audio>
+</div>
+
+<script>
+const V = window.VO, S = window.SCENES, CAPS = window.CAPS;
+const tl = gsap.timeline({ paused: true });
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, parent, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; parent.appendChild(e); return e; };
+const place = (e, x, y, w, h) => Object.assign(e.style, { left: x + "px", top: y + "px", width: w + "px", height: h + "px" });
+const ICON = {
+  building: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>',
+  banknote: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>',
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>',
+  sparkle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+  globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>',
+  folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+};
+
+// ---- cue lookup: the time a word is spoken. cue = [line index in lines.json, word, (n-th match), "end"]
+const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
+function cue(c, fallback) {
+  if (!c) return fallback;
+  const [li, word, n = 0, end] = c;
+  const hits = V.words.filter((w) => w[3] === li && norm(w[0]) === norm(word));
+  if (!hits[n]) { console.error(`cue not found: line ${li}, word "${word}"`); return V.lines[li] ? V.lines[li][0] : fallback; }
+  return hits[n][end === "end" ? 2 : 1];
+}
+
+// ---- scene windows from the voice: a scene starts just before its first line and ends where the next one starts
+const TOTAL = V.total;
+const win = S.map((s) => {
+  const ls = V.lines.map((l, i) => [l, i]).filter(([l]) => l[3] === s.id);
+  if (!ls.length) console.error(`scene ${s.id} has no lines in lines.json`);
+  return { a: Math.max(0, (ls.length ? ls[0][0][0] : 0) - 0.35) };
+});
+win.forEach((w, i) => { w.b = i + 1 < win.length ? win[i + 1].a : TOTAL; });
+if (V.draft) $("draft").style.display = "block";
+
+function headline(parent, eyebrow, lines, accentLast) {
+  if (eyebrow) {
+    const eb = el("div", "eyebrow", parent);
+    const m = eyebrow.match(/^(\d+)(.*)$/);
+    eb.innerHTML = m ? `<span class="em">${m[1]}</span>${m[2]}` : eyebrow;
+  }
+  const hl = el("div", "hl", parent);
+  lines.forEach((s, j) => el("span", "txt" + (accentLast && j === lines.length - 1 ? " em" : ""), el("div", "line", hl), s));
+  return parent;
+}
+function headIn(parent, at) {
+  const eb = parent.querySelector(".eyebrow");
+  if (eb) tl.fromTo(eb, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, at);
+  parent.querySelectorAll(".hl .txt").forEach((t, j) =>
+    tl.fromTo(t, { yPercent: 112, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.65, ease: "expo.out" }, at + 0.08 + j * 0.09));
+}
+
+// ---- phone: one device, screens push in from the right
+const K = 424 / 720;
+let phoneOn = false, lastLayer = null;
+function showScreen(src, at, push) {
+  const layer = el("div", "layer", $("layers")); const img = el("img", "", layer); img.src = src; img.alt = "";
+  tl.set(layer, { autoAlpha: 0 }, 0);
+  tl.set(layer, { autoAlpha: 1 }, at);
+  if (push && lastLayer) {
+    tl.fromTo(layer, { x: 720 }, { x: 0, duration: 0.5, ease: "power2.inOut" }, at);
+    tl.to(lastLayer, { x: -216, duration: 0.5, ease: "power2.inOut" }, at);
+    tl.set(lastLayer, { autoAlpha: 0 }, at + 0.5);
+  } else if (lastLayer) {
+    tl.set(lastLayer, { autoAlpha: 0 }, at);
+  }
+  lastLayer = layer;
+  return layer;
+}
+
+S.forEach((s, i) => {
+  const { a, b } = win[i];
+  const sc = el("div", "scene t-" + s.type, $("scenes"));
+  tl.set(sc, { opacity: 1 }, a);
+  tl.to(sc, { opacity: 0, duration: 0.3, ease: "power2.in" }, b - 0.3);
+
+  if (s.type === "title") {
+    headline(sc, s.eyebrow, s.lines, true); headIn(sc, a + 0.05);
+  }
+
+  if (s.type === "phone") {
+    headline(sc, s.eyebrow, s.lines, true); headIn(sc, a + 0.05);
+    if (!phoneOn) {
+      tl.fromTo("#phone", { opacity: 0, y: 900 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, a);
+      phoneOn = true;
+    }
+    (s.screens || []).forEach((scr, k) => {
+      const at = k === 0 ? a : cue(scr.cue, a + 1.5);
+      const layer = showScreen(scr.src, at, k > 0 || !!lastLayer);   // push when a screen is already showing
+      if (s.highlight && k === (s.screens.length - 1)) {
+        const [x0, y0, x1, y1] = s.highlight.box;
+        const ring = el("div", "ring", layer); place(ring, x0 + 4, y0 + 4, x1 - x0 - 8, y1 - y0 - 8);
+        const t = cue(s.highlight.cue, a + 1.0);
+        tl.fromTo(ring, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }, t);
+        tl.to(ring, { opacity: 0, duration: 0.3 }, b - 0.35);
+      }
+    });
+    (s.callouts || []).forEach((c, j) => {
+      const n = s.callouts.length, y = 520 + j * 128 + (n === 1 ? 64 : 0);   // keep the column clear of the captions at y 950
+      const e = el("div", "callout", $("callouts"),
+        `<div class="ic">${ICON[c.icon] || ICON.check}<div class="ok">${ICON.check}</div></div>` +
+        `<div class="body"><div class="lab">${c.label}</div><div class="val${c.mono ? " mono" : ""}">${c.value}</div></div>`);
+      place(e, 160, y, 720, 116);
+      const t = cue(c.cue, a + 1.2 + j * 0.4);
+      tl.fromTo(e, { opacity: 0, x: 220, scale: 0.7 }, { opacity: 1, x: 0, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, t);
+      tl.to(e, { opacity: 0, x: -30, duration: 0.25, ease: "power2.in" }, b - 0.32);
+    });
+    const next = S[i + 1];
+    if (!next || next.type !== "phone") {
+      tl.to("#phone", { opacity: 0, y: 120, duration: 0.4, ease: "power2.in" }, b - 0.4);
+      phoneOn = false; lastLayer = null;
+    }
+  }
+
+  if (s.type === "points") {
+    headline(sc, s.eyebrow, s.lines, true); headIn(sc, a + 0.05);
+    (s.points || []).forEach((p, j) => {
+      const e = el("div", "point", sc, `<div class="ic">${ICON[p.icon] || ICON.check}</div><div class="ptxt">${p.text}</div>`);
+      e.style.left = 160 + j * 540 + "px";
+      tl.fromTo(e, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, cue(p.cue, a + 1 + j * 0.6));
+    });
+  }
+
+  if (s.type === "end") {
+    el("div", "g1", sc);
+    const logo = el("img", "logo", sc); logo.src = "../../assets/logo/sortio-mark-origami.png"; logo.alt = "";
+    el("div", "out wm", sc, `<div class="mask"><span class="in">${s.wordmark}</span></div>`);
+    const ehl = el("div", "out ehl", sc);
+    s.lines.forEach((t, j) => el("div", "mask", ehl, `<span class="in${j ? " dim2" : ""}">${t}</span>`));
+    el("div", "out cta", sc, `<span class="in pill">${s.cta}</span>`);
+    el("div", "out url", sc, `<span class="in">${s.url} · <b>${s.urlNote}</b></span>`);
+    tl.fromTo(logo, { opacity: 0, x: -420, y: 300, rotation: 30, scale: 0.6 }, { opacity: 1, x: 0, y: 0, rotation: 0, scale: 1, duration: 0.8, ease: "power3.out" }, a + 0.1);
+    sc.querySelectorAll(".mask .in").forEach((m, j) =>
+      tl.fromTo(m, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, a + 0.45 + j * 0.1));
+    tl.fromTo(sc.querySelector(".cta"), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, a + 1.0);
+    tl.fromTo(sc.querySelector(".url"), { opacity: 0 }, { opacity: 1, duration: 0.4 }, a + 1.2);
+    tl.fromTo(logo, { scale: 1 }, { scale: 1.06, duration: Math.max(0.5, b - a - 1.0), ease: "sine.inOut" }, a + 0.9);   // keeps the hold alive
+  }
+});
+
+// ---- burned-in captions: phone scenes put them in the text column, the others centre them
+CAPS.forEach((c) => {
+  const s = S.find((x) => x.id === c.scene) || {};
+  if (s.captions === false) return;
+  const left = s.type === "phone" ? 160 : 0, width = s.type === "phone" ? 920 : 1920;
+  const d = el("div", "cap", $("caps"), `<span class="c">${c.html}</span>`);
+  Object.assign(d.style, { left: left + "px", width: width + "px", justifyContent: s.type === "phone" ? "flex-start" : "center" });
+  tl.set(d, { opacity: 1 }, c.s);
+  tl.set(d, { opacity: 0 }, c.e);
+});
+
+tl.set({}, {}, TOTAL);
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

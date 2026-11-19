@@ -1,0 +1,23 @@
+[
+  { "scene": "s1", "chapter": "Der Stapel", "text": "Krankenkasse, Steuern, Mietzins: Jeden Monat landet derselbe Stapel Post auf dem Tisch.", "pause": 0.5 },
+  { "scene": "s1", "text": "So bringt Sortio Ordnung hinein.", "pause": 0.8 },
+
+  { "scene": "s2", "chapter": "Scannen", "text": "Du fotografierst einen Brief, wählst ein Bild aus der Galerie oder importierst ein PDF.", "pause": 0.35 },
+  { "scene": "s2", "text": "Sortio liest, was wichtig ist: Absender, Betrag, Fälligkeit, IBAN und Referenz.", "pause": 0.35, "keys": ["Absender", "Betrag", "Fälligkeit"] },
+  { "scene": "s2", "text": "Bei dieser Prämienrechnung sind das CHF 412.30, zahlbar bis 31.10.2026.", "say": "Bei dieser Prämienrechnung sind das vierhundertzwölf Franken dreissig, zahlbar bis zum einunddreissigsten Oktober zwanzig sechsundzwanzig.", "pause": 0.8 },
+
+  { "scene": "s3", "chapter": "Ablegen", "text": "Dann legt Sortio den Brief im richtigen Ordner ab.", "pause": 0.3 },
+  { "scene": "s3", "text": "Rechnungen, Versicherungen, Steuern, Behörden: alles am Platz, mit dem offenen Betrag pro Ordner.", "pause": 0.8 },
+
+  { "scene": "s4", "chapter": "Erinnern", "text": "Aus jedem Brief entstehen Aufgaben mit Fälligkeit.", "pause": 0.3 },
+  { "scene": "s4", "text": "Sortio erinnert dich am Vortag oder am Fälligkeitstag, und auf Wunsch steht die Frist direkt in deinem Kalender.", "pause": 0.8, "keys": ["am Vortag"] },
+
+  { "scene": "s5", "chapter": "Fragen", "text": "Und mit Sortio Pro fragst du Sortio AI in eigenen Worten.", "pause": 0.3, "keys": ["Sortio AI"] },
+  { "scene": "s5", "text": "Welche Rechnungen sind diesen Monat noch offen? Die Antwort kommt aus deinen eigenen Dokumenten.", "pause": 0.8 },
+
+  { "scene": "s6", "chapter": "Sicherheit", "text": "Deine Unterlagen werden in der Schweiz gespeichert, AES-256 verschlüsselt.", "say": "Deine Unterlagen werden in der Schweiz gespeichert, A E S zweihundertsechsundfünfzig verschlüsselt.", "pause": 0.3 },
+  { "scene": "s6", "text": "Und Sortio liest Briefe auf Deutsch, Französisch und Englisch.", "pause": 0.8 },
+
+  { "scene": "s7", "chapter": "Kostenlos starten", "text": "Sortio. Weniger Papierkram, mehr Kopf für das, was zählt.", "pause": 0.3 },
+  { "scene": "s7", "text": "Kostenlos starten, im App Store.", "pause": 0.2 }
+]
